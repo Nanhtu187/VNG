@@ -1,0 +1,32 @@
+syntax = "proto3";
+package be.v1;
+
+option go_package = "github.com/Nanhtu187/VNG/BE/proto/rpc/iam";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+service BeService{
+  rpc StringProcess(StringProcessRequest) returns (StringProcessResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/string"
+      body: "*"
+    };
+  }
+}
+
+message StringProcessRequest {
+  string value = 1 [(validate.rules).string = {
+    min_len: 1
+  }, json_name = "value"];
+}
+
+message StringProcessResponse {
+  int32 code = 1 [json_name = "code"];
+  string message = 2 [json_name = "message"];
+  StringData data = 3 [json_name = "data"];
+}
+
+message StringData {
+  string value = 1 [json_name = "value"];
+}
